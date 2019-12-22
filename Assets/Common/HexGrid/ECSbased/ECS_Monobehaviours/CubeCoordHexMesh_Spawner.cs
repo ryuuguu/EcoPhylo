@@ -4,12 +4,14 @@ using Unity.Mathematics;
 using Unity.Transforms;
 using UnityEngine;
 using Com.Ryuuguu.HexGridCC;
+using Unity.Rendering;
 
-public class CubeCoord_Spawner : MonoBehaviour {
+public class CubeCoordHexMesh_Spawner : MonoBehaviour {
     
     
     public Transform holder;
-    public HexMesh prefab;
+    public GameObject prefab;
+    public Mesh mesh;
     public CubeCoordinates.LocalSpace.Orientation orientation;
     public Vector2 offsetCoord;
 
@@ -28,8 +30,9 @@ public class CubeCoord_Spawner : MonoBehaviour {
     public void Hex(int aRadius) {
         // Create entity prefab from the game object hierarchy once
         var settings = GameObjectConversionSettings.FromWorld(World.DefaultGameObjectInjectionWorld, null);
-        var entity = GameObjectConversionUtility.ConvertGameObjectHierarchy(prefab.gameObject, settings);
+        var entity = GameObjectConversionUtility.ConvertGameObjectHierarchy(prefab, settings);
         var entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
+        float sum = aRadius * 3;
         
         for (int x = -aRadius; x <= aRadius; x++) {
             for (int y = -aRadius; y <= aRadius; y++) {
@@ -41,6 +44,15 @@ public class CubeCoord_Spawner : MonoBehaviour {
                         // Place the instantiated entity in a grid with some noise
                         var position =CubeCoordinates.ConvertPlaneToLocalPosition(new Vector2(x,y),localSpace) ;
                         entityManager.SetComponentData(instance, new Translation {Value = position});
+                        var material = new Material(Shader.Find("Standard"));
+                        float xa = Mathf.Abs(x);
+                        float ya = Mathf.Abs(y);
+                        float za = Mathf.Abs(z);
+                        material.color = new Color(xa/sum,ya/sum,za/sum);
+                        /*
+                        entityManager.SetComponentData(instance,
+                            new HexMeshRenderer {Mesh = mesh, Material = material});
+                            */
                     }
                 }
             }
