@@ -11,7 +11,7 @@ using Unity.Transforms;
 class HexMeshAuthoring : MonoBehaviour, IConvertGameObjectToEntity
 {
     public Mesh Mesh = null;
-    public Color Color = Color.white;
+    public Color Color = Color.blue;
 
     public void Convert(Entity entity, EntityManager dstManager, GameObjectConversionSystem conversionSystem)
     {
@@ -31,4 +31,18 @@ class HexMeshAuthoring : MonoBehaviour, IConvertGameObjectToEntity
 public class HexMeshRenderer : IComponentData {
     public Mesh     Mesh;
     public Material Material;
+}
+
+[ExecuteAlways]
+[AlwaysUpdateSystem]
+[UpdateInGroup(typeof(PresentationSystemGroup))]
+class HexMeshRendererSystem : ComponentSystem
+{
+    override protected void OnUpdate()
+    {
+        Entities.ForEach((HexMeshRenderer renderer, ref LocalToWorld localToWorld) =>
+        {
+            Graphics.DrawMesh(renderer.Mesh, localToWorld.Value, renderer.Material, 0);
+        });
+    }
 }

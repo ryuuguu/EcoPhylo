@@ -5,6 +5,7 @@ using Unity.Transforms;
 using UnityEngine;
 using Com.Ryuuguu.HexGridCC;
 using Unity.Rendering;
+using UnityEngine.Rendering;
 
 public class CubeCoord_Spawner : MonoBehaviour {
     
@@ -44,13 +45,22 @@ public class CubeCoord_Spawner : MonoBehaviour {
                         // Place the instantiated entity in a grid with some noise
                         var position =CubeCoordinates.ConvertPlaneToLocalPosition(new Vector2(x,y),localSpace) ;
                         entityManager.SetComponentData(instance, new Translation {Value = position});
-                        /*
+                        
                         var material = new Material(Shader.Find("Standard"));
                         float xa = Mathf.Abs(x);
                         float ya = Mathf.Abs(y);
                         float za = Mathf.Abs(z);
+                        
                         material.color = new Color(xa/sum,ya/sum,za/sum);
+                        
+                        /*
+                         
+                        entityManager.SetComponentData<RenderMesh>(instance, new RenderMesh {
+                            material =  material, mesh = mesh
+                        });
                         */
+                       
+                        
                         
                     }
                 }

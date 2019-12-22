@@ -49,10 +49,10 @@ public class CubeCoordHexMesh_Spawner : MonoBehaviour {
                         float ya = Mathf.Abs(y);
                         float za = Mathf.Abs(z);
                         material.color = new Color(xa/sum,ya/sum,za/sum);
-                        /*
+                        
                         entityManager.SetComponentData(instance,
                             new HexMeshRenderer {Mesh = mesh, Material = material});
-                            */
+                            
                     }
                 }
             }
