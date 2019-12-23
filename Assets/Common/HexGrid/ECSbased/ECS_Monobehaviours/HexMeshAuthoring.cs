@@ -4,6 +4,7 @@ using Unity.Collections;
 using Unity.Entities;
 using Unity.Jobs;
 using Unity.Mathematics;
+using Unity.Rendering;
 using UnityEngine;
 using Unity.Transforms;
 
@@ -19,7 +20,6 @@ class HexMeshAuthoring : MonoBehaviour, IConvertGameObjectToEntity
         var material = new Material(Shader.Find("Standard"));
         material.color = Color;
         // ... Or be an asset that is being referenced.
-        
         dstManager.AddComponentData(entity, new HexMeshRenderer
         {
             Mesh = Mesh,
@@ -27,6 +27,8 @@ class HexMeshAuthoring : MonoBehaviour, IConvertGameObjectToEntity
         });
     }
 }
+
+
 
 public class HexMeshRenderer : IComponentData {
     public Mesh     Mesh;
